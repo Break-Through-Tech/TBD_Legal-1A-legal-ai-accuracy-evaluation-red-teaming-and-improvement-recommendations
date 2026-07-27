@@ -33,8 +33,7 @@
 - **Overall Recommendation:** REVISE
 
 ### Advisor Feedback Draft
-This project offers a high-impact opportunity to engage with critical legal AI safety. To succeed, please first restrict the project to a 12-week timeline by prioritizing the core evaluation harness over extensive red-teaming. Second, replace generic LLM calls with a fixed, smaller-scale model or simulated environment to ensure deterministic benchmarking throughout the semester. I look forward to your revised timeline proposal.
-
+This project offers a high-impact opportunity to engage with critical legal AI safety. By narrowing the target area to a single, well-defined failure mode and employing a highly structured attack framework instead of open-ended hacking, the Fellows can maintain focus and engagement. Additionally, replacing generic LLM calls with a fixed, smaller-scale model or simulated environment will ensure deterministic benchmarking and provide small wins that foster a sense of productivity.
 ---
 
 # Legal AI Accuracy Evaluation, Red-Teaming & Improvement Recommendations
