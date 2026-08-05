@@ -40,6 +40,7 @@ This project offers a high-impact opportunity to engage with critical legal AI s
 
 **Company / Org:** ProseAI  
 **Challenge Advisor:** Benjamin Booker, benjaminbooker@gmail.com  
+**AI Studio Coach:** Nagalakshmi Pulivarthi,nagalakshmi.pulivarthi@breakthroughtech.org  
 **Program:** Break Through Tech AI Studio - Fall 2026  
 
 ---
