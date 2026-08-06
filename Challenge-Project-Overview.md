@@ -59,12 +59,17 @@ Success is measured across three components: Part A - Accuracy Evaluation (worki
 
 ### Project Milestones
 Use these milestones to guide your work. Your team will create a GitHub Projects board to track tasks within each milestone.
+
 | Month | Milestone | Key Activities |
-|-------|-----------|----------------|
-| **September** | Data Exploration & Preprocessing | Audit the existing vector database index, clean raw court opinion text, and structure the gold-standard query/answer pairs for automated testing. |
-| **October** | Feature Engineering & Baseline Modeling | Implement retrieval evaluation metrics (Hit@K, MRR, NDCG) and establish a baseline performance score using the provided legal corpus. |
-| **November** | Model Optimization & Evaluation | Develop the citation verification module, conduct systematic red-teaming to uncover failure modes, and quantify hallucination risks. |
-| **December** | Insights, Deliverables & Presentation | Synthesize failure mode taxonomies into prioritized improvement recommendations and package the final evaluation library and documentation. |
+| :--- | :--- | :--- |
+| September | Data Ingestion, Baseline Benchmarking & Evaluation Setup | • Ingest and inspect the pre-indexed legal document corpus, vector database index, and gold-standard Q&A pairs.<br>• Establish baseline evaluation metrics across retrieval precision, answer correctness, hallucination rate, and citation fidelity.<br>• Build an automated evaluation script to systematically evaluate baseline AI responses. |
+| October | Adversarial Red-Teaming & Failure Mode Analysis | • Design adversarial red-teaming test suites targeting edge cases (e.g., ambiguous clauses, out-of-scope queries, conflicting contract terms, hallucination traps).<br>• Stress-test the legal AI system and record system vulnerabilities.<br>• Construct a structured error taxonomy categorizing failure modes in legal reasoning and retrieval. |
+| November / December | System Optimization, Guardrails & Capstone Deliverables | • Implement targeted RAG pipeline improvements (prompt refinement, re-ranking adjustments, output guardrails).<br>• Benchmark the improved legal AI system against baseline metrics to quantify accuracy gains.<br>• Finalize the red-teaming evaluation framework, final analytical report, clean GitHub repository, and stakeholder presentation. |
+
+### Stretch Goals
+* **Automated Adversarial Test Generator:** Build an LLM-powered test suite generator that automatically synthesizes challenging, edge-case contract scenarios to continuously red-team legal models.
+* **Real-Time Guardrail Middleware:** Develop a real-time verification layer that evaluates answer groundedness and intercepts unverified or hallucinated responses before serving them to the user.
+* **Paragraph-Level Citation Verifier:** Implement a granular citation alignment checker that verifies whether generated legal claims map directly to exact sentences or paragraphs in the source document.
 
 > **Note for the team:** Please create a GitHub Projects board in this repository to break these milestones into weekly tasks. Go to the **Projects** tab → **New project** → Choose **Board** → Add columns for each month.
 
