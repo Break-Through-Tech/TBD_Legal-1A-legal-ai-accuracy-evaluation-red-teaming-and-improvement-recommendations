@@ -32,8 +32,9 @@
 - **Technical Depth Score:** 8/10
 - **Overall Recommendation:** REVISE
 
-## Advisor Feedback Draft
+### Advisor Feedback Draft
 This project offers a high-impact opportunity to engage with critical legal AI safety. By narrowing the target area to a single, well-defined failure mode and employing a highly structured attack framework instead of open-ended hacking, the Fellows can maintain focus and engagement. Additionally, replacing generic LLM calls with a fixed, smaller-scale model or simulated environment will ensure deterministic benchmarking and provide small wins that foster a sense of productivity.
+
 ---
 
 # Legal AI Accuracy Evaluation, Red-Teaming & Improvement Recommendations
@@ -52,82 +53,110 @@ ProseAI is a legal technology organization dedicated to increasing access to jus
 
 ## 🎯 The Challenge
 ### Project Summary
-This project focuses on building a robust evaluation and red-teaming framework to audit the accuracy of ProseAI’s legal information retrieval and generation systems. Teams will utilize Alaska-specific family law datasets to design an evaluation harness, document failure modes, and provide actionable recommendations to improve system reliability and citation accuracy.
+In this project, you will use Alaska family-law court opinions, statutes, and a gold-standard set of query/answer pairs and information-retrieval evaluation, citation verification using string and semantic similarity, and systematic red-teaming to build a system that measures the retrieval and generation accuracy of a legal AI's output, discover the conditions under which it fails, and recommend how to improve it. This will help our company address the risk that AI-generated legal documents contain hallucinated or inaccurate citations, which can cause real harm to self-represented litigants in family court.
 
 ### Success Criteria
-Success is measured across three components: Part A - Accuracy Evaluation (working evaluation system computing retrieval metrics like Hit@K, MRR, NDCG); Part B - Red-Teaming (breadth and quality of discovered failures, specifically 40-50 reproducible cases with several rated critical); Part C - Improvement Recommendations (specificity, actionability, and ranking by severity). Overarching criterion: reusability for ProseAI.
+
+How Success Is Measured
+
+The guiding principle: this project succeeds by producing a rigorous, honest measurement of the system, not by the system achieving a good score. A strong evaluation that reveals serious weaknesses is a successful project, because surfacing the truth is precisely its purpose. The fellows are graded on the quality of their measurement and analysis, never on how well ProseAI's system happens to perform.
+
+Success is measured across three components and one overarching criterion.
+
+Part A — Accuracy Evaluation. Success is a working evaluation system that computes retrieval metrics (Hit@1, Hit@5, Hit@10, MRR, NDCG) across the full gold set, broken down by motion type and reported separately for statute/rule retrieval and case-law retrieval, alongside per-document generation-accuracy and hallucination-risk scores. The measure is correctness and reproducibility, not the metric values themselves: the harness should produce a complete, trustworthy accuracy report on demand, including for a system version it has not seen before.
+
+Part B — Red-Teaming. Success is measured by the breadth and quality of discovered failures: a set of distinct, reproducible failure cases spanning all four attack categories (edge cases, adversarial phrasing, jurisdiction traps, hallucination triggers), each categorized by type and severity, and assembled into a regression suite that runs reliably. A reasonable target is on the order of 40–50 reproducible cases with several rated critical. The deeper measure of quality is discovery; whether the red-team surfaces failure modes not already known to ProseAI, rather than rediscovering known issues.
+
+Part C — Improvement Recommendations. Success is measured by actionability. Each recommendation should be specific, ranked by its severity to user outcomes, and tied directly to evidence from Parts A and B. The bar: a reader can tell from each recommendation exactly what to change and why it matters. "Increase retrieval depth for protective-order queries, where Hit@5 is 0.4 versus 0.8 elsewhere" passes; "improve retrieval quality" does not.
+
+Overarching criterion: reusability. The ultimate measure of success is whether ProseAI can re-run the complete evaluation against an updated version of the system after the project ends and obtain a trustworthy before-and-after comparison without the fellows present. The strategic purpose of this project is a permanent quality gate and standing regression suite, not a one-time report. If that re-run is possible in January, the project has delivered its lasting value regardless of how any individual metric came out.
 
 ### Project Milestones
 Use these milestones to guide your work. Your team will create a GitHub Projects board to track tasks within each milestone.
 
 | Month | Milestone | Key Activities |
-| :--- | :--- | :--- |
-| September | Data Ingestion, Baseline Benchmarking & Evaluation Setup | • Ingest and inspect the pre-indexed legal document corpus, vector database index, and gold-standard Q&A pairs.<br>• Establish baseline evaluation metrics across retrieval precision, answer correctness, hallucination rate, and citation fidelity.<br>• Build an automated evaluation script to systematically evaluate baseline AI responses. |
-| October | Adversarial Red-Teaming & Failure Mode Analysis | • Design adversarial red-teaming test suites targeting edge cases (e.g., ambiguous clauses, out-of-scope queries, conflicting contract terms, hallucination traps).<br>• Stress-test the legal AI system and record system vulnerabilities.<br>• Construct a structured error taxonomy categorizing failure modes in legal reasoning and retrieval. |
-| November / December | System Optimization, Guardrails & Capstone Deliverables | • Implement targeted RAG pipeline improvements (prompt refinement, re-ranking adjustments, output guardrails).<br>• Benchmark the improved legal AI system against baseline metrics to quantify accuracy gains.<br>• Finalize the red-teaming evaluation framework, final analytical report, clean GitHub repository, and stakeholder presentation. |
-
-### Stretch Goals
-* **Automated Adversarial Test Generator:** Build an LLM-powered test suite generator that automatically synthesizes challenging, edge-case contract scenarios to continuously red-team legal models.
-* **Real-Time Guardrail Middleware:** Develop a real-time verification layer that evaluates answer groundedness and intercepts unverified or hallucinated responses before serving them to the user.
-* **Paragraph-Level Citation Verifier:** Implement a granular citation alignment checker that verifies whether generated legal claims map directly to exact sentences or paragraphs in the source document.
+|---|---|---|
+| September | Foundation & Retrieval Evaluation | • Explore the corpus and the gold set: motion-type distribution, citation patterns, document structure.<br>• Connect to the vector index and build the retrieval evaluation harness.<br>• Compute the baseline retrieval metrics (Hit@K, MRR, NDCG), broken down by motion type and by statute vs case law.<br>• Identify the weakest-retrieving query categories as early red-team targets.<br>• **Deliverable:** Retrieval evaluation harness + baseline retrieval metrics with breakdowns. |
+| October | Generation Accuracy & Citation Verification | • Generate sample documents with fictional names across the common motion types.<br>• Build the citation extractor and verifier.<br>• Produce per-document hallucination-risk scores and analyze where generation accuracy is weakest.<br>• Begin red-teaming the weak spots found in September.<br>• **Deliverable:** Citation verification module + generation-accuracy / hallucination-risk scoring + first batch of documented failures. |
+| November | Red-Teaming & Failure Analysis | • Run the full red-team campaign across edge cases, adversarial phrasing, jurisdiction traps, and hallucination triggers.<br>• Document each failure as a reproducible, categorized test case; assemble the regression suite.<br>• Analyze failure patterns: which conditions most reliably break the system and how badly.<br>• **Deliverable:** Failure-mode taxonomy + reproducible red-team regression suite categorized by severity. |
+| December | Recommendations, Final Report & Presentation | • Synthesize evaluation and red-team findings into prioritized improvement recommendations.<br>• Package the full evaluation system and regression suite for ProseAI to reuse on every future change.<br>• Present findings and recommendations to ProseAI stakeholders.<br>• **Deliverable:** Final report (PDF) + open-source evaluation & red-team library (GitHub) + prioritized recommendations + presentation slides. |
 
 > **Note for the team:** Please create a GitHub Projects board in this repository to break these milestones into weekly tasks. Go to the **Projects** tab → **New project** → Choose **Board** → Add columns for each month.
 
 ---
 
 ## 📊 Dataset
-**Name and Source:** Alaska Family-Law Corpus (CourtListener/ProseAI)  
-**Format:** Vector DB Index, CSV, JSON  
-**Size:** 1gb to 5gb  
-**Location:** Provided via secure shared repository access  
+**Name and Source:** 
 
-### Key Details
-- A corpus of Alaska family-law legal sources: published court opinions from CourtListener, Alaska statutes and procedural rules covering domestic relations (custody, child support, protective orders), and a ProseAI-created gold-standard set of roughly 100-150 query/answer pairs. The corpus is pre-processed and pre-indexed in a vector database; gold-standard pairs are in CSV/JSON format.
-- Teams must manage constraints regarding legal citation formats and ensure the evaluation system accounts for semantic similarity versus strict string matching when verifying AI responses.
+Dataset description. The project uses a corpus of Alaska family-law legal sources: published court opinions from CourtListener (the Free Law Project's public database), Alaska statutes and procedural rules covering domestic relations (custody, child support, protective orders), and a ProseAI-created gold-standard set of roughly 100–150 query/answer pairs — each a realistic self-represented-litigant situation paired with the legal sources a well-researched answer would cite. The court opinions and statutes are public record and contain no personally identifiable information; all sample documents used in evaluation are generated with fictional party names.
+
+How it will be shared. ProseAI will provide the corpus pre-processed and pre-indexed in a vector database, so the team can evaluate the existing system from day one without re-embedding anything. The gold-standard pairs will be shared as a structured file (CSV/JSON). Access to the vector index and to the LLM and embedding services is provided through ProseAI-issued API keys (read access on the index), distributed to the team at the start of the project.
 
 ---
 
 ## 🛠️ Suggested Approach
-**ML Problem Type:** NLP & RAG  
+
+**ML Problem Type:** Natural Language Processing (NLP), Deep Learning / Neural Networks, Large Language Models (LLMs)/ Generative AI, Transfer Learning / Pre-trained Models
+
 **Recommended Libraries:**
-- Natural Language Processing (NLP)
-- Deep Learning / Neural Networks
-- Large Language Models (LLMs)/ Generative AI
-- Transfer Learning / Pre-trained Models
-**Evaluation Metrics:** Hit@K, Mean Reciprocal Rank (MRR), Normalized Discounted Cumulative Gain (NDCG), and custom citation-accuracy scores.
+- [e.g., pandas, scikit-learn, TensorFlow, Hugging Face]
+
+**Evaluation Metrics:**
+- [e.g., Accuracy, Precision/Recall, RMSE, BLEU score]
 
 ---
 
 ## 📚 Resources to Get Started
+
 The following resources will help your team understand the problem space and potential technical approaches for this project:
+
 **Background Reading:**
-- Provided white papers on legal AI safety and the challenges of RAG-based hallucination in the domestic relations legal sector.
+- [e.g., Link to an article or blog post about the problem domain]
+- [e.g., Link to an industry report or case study]
+
 **Technical Tutorials:**
-- Documentation for LangChain/LlamaIndex evaluation modules and vector search optimization guides.
+- [e.g., Link to a free tutorial on the ML technique(s) involved]
+- [e.g., Link to documentation for a key library or tool]
+
 **Code Examples:**
-- Starter repositories for RAG-based QA evaluation and custom red-teaming scripts provided by the advisor.
+- [e.g., Link to a relevant GitHub repo]
+- [e.g., Link to a sample implementation or starter code]
+
+**Other:**
+- [Links to any additional resources — e.g., papers, videos, podcasts, etc.]
+
+*Feel free to explore beyond these, and share anything interesting you find with me!*
 
 ---
 
 ## 🤝 How We'll Work Together
-**Check-ins:** During our biweekly 60-min AI Studio Lab Section meeting block (2nd and 4th week of every month)  
-**Communication:** Slack and project-specific GitHub issues for technical blockers.  
-**Response time:** 48 hours for non-urgent technical questions.  
-**Recommended Tools:**
-- **Coding:** Google Colab Free Tier  
-- **Collaboration:** GitHub, Notion  
-- **Virtual Meetings:** Zoom, Google Meet  
+
+**Official check-ins:** During our biweekly 45-minute AI Studio Lab Section meeting block (2nd and 4th week of every month)
+
+ **Other ways to reach out to me with questions:** 
+* [e.g., Your team's channel within Break Through Tech’s Discord space]
+* [e.g., Email; please copy your teammates and AI Studio Coach]
+* [e.g., Request a team check-in on Zoom]
+* [Note: I will aim to respond within 48 hours. Please reach out to your AI Studio Coach with urgent questions.]
+
+> 💡 **Challenge Advisor: Please update the above based on your availability and preference. If you are not able to answer questions or meet with fellows outside of the biweekly Lab Section check-ins, simply write in "N/A (only available during the official check-in times)"**
+
+**Recommended free coding / collaboration tools**
+* […]
+* […]
 
 ---
 
 ## 🚀 Getting Started
-1. **Review this overview document** and note any questions for our first meeting.
-2. **Begin reviewing the dataset** using the link provided in the Dataset section.
-3. **Read the GitHub Projects documentation** [here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects).
 
-I'm excited to work with you!
+1. **Review this overview document** and note any questions for our first meeting
+2. **Begin reviewing the dataset** using the link above
+3. **Read the GitHub Projects documentation** [here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)
+
+I’m excited to work with you!
 
 ---
 
 ## ❓ Questions?
-Please bring any questions to our first meeting during the week of August 24th (Break Through Tech's Bridge to Studio - Session B).
+
+Please bring any questions to our first meeting during the week of August 24th (Break Through Tech’s Bridge to Studio - Session C). 
